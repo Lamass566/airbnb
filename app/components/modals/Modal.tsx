@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface ModalProps{
     isOpen?: boolean;
@@ -30,10 +30,65 @@ const Modal: React.FC<ModalProps> = ({
 
     useEffect(()=>{
         setShowModal(isOpen)
-    },[isOpen])
+    },[isOpen]);
+
+    const handleClose = useCallback(() => {
+        if(disabled) {
+            return;
+        }
+
+        setShowModal(false)
+        setTimeout(()=>{
+            onClose();
+        },300)
+    },[disabled, onClose])
+
+    const handleSubmit = useCallback(() => {
+        if(disabled) {
+            return;
+        }
+
+        onSubmit()
+    },[disabled, onSubmit])
+
+
+    const handleSecondaryAction = useCallback(() => {
+        if(disabled || !secondaryAction){
+            return;
+        }
+
+        secondaryAction();
+    },[disabled, secondaryAction])
+
+    if(!isOpen){
+        return null;
+    }
 
     return(
-        <></>
+        <>
+        <div
+            className="
+            justify-center
+            items-center
+            flex
+            overflow-x-hidden
+            overflow-y-auto
+            fixed
+            inset-0
+            z-50
+            outline-none
+            focus:outline-none
+            bg-neutral-800/70
+            "
+        >
+            <div
+            
+            >
+
+            </div>
+
+        </div>
+        </>
     )
 }
 
